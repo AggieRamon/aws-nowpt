@@ -1,0 +1,17 @@
+{
+  "name": "nowpt-service",
+  "version": "1.0.0",
+  "description": "AWS DynamoDB Serverless Project",
+  "main": "serverless.yml",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ramon Ramon",
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "^2.774.0",
+    "serverless-bundle": "^3.2.1",
+    "serverless-pseudo-parameters": "^2.5.0"
+  },
+  "dependencies": {}
+}

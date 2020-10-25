@@ -1,0 +1,63 @@
+service: nowpt-service
+
+plugins:
+        - serverless-bundle
+        - serverless-pseudo-parameters
+
+provider:
+        name: aws
+        runtime: nodejs12.x
+        stage: ${opt:stage,'dev'}
+        region: us-east-1
+        logRetentionInDays: 7
+        iamRoleStatements:
+                - ${file(roles/UsersTable.yml):UsersTable}
+
+resources:
+        Resources:
+                UsersTable: ${file(resources/DefUsersTable.yml):DefUsersTable}
+
+functions:
+        getUsers:
+                handler: functions/getUsers.handler
+                events:
+                        - http:
+                                path: users
+                                method: get
+                                authorizer:
+                                        name: authorizer
+                                        arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.UserPool.id}
+        getUserById:
+                handler: functions/getUserById.handler
+                events:
+                        - http:
+                                path: users/{id}
+                                method: get
+                                authorizer:
+                                        name: authorizer
+                                        arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.UserPool.id}
+        createUser:
+                handler: functions/createUser.handler
+                events:
+                        - cognitoUserPool:
+                                pool: nowpt
+                                trigger: PreSignUp
+                                existing: true
+        updateUser:
+                handler: functions/updateUser.handler
+                events:
+                        - http:
+                                path: users/{id}
+                                method: put
+                                authorizer:
+                                        name: authorizer
+                                        arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.UserPool.id}
+        
+custom:
+        UsersTable:
+                name: !Ref UsersTable
+                arn: !GetAtt UsersTable.Arn
+        UserPool:
+                id: ${file(environment.yml):Environment.userPoolId}
+        bundle:
+                linting: false
