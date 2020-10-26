@@ -1,0 +1,7 @@
+UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+        ClientName: nowpt
+        RefreshTokenValidity: 30
+        GenerateSecret: false
+        UserPoolId: ${self:custom.UserPool.id}

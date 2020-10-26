@@ -12,7 +12,7 @@ async function getUserById(event) {
         S: id
       }
     },
-    TableName: "users"
+    TableName: process.env.USERS_TABLE
   }
 
   try {

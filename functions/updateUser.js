@@ -18,7 +18,7 @@ async function updateUser(event) {
                 S: last_name
             }
         },
-        TableName: "users"
+        TableName: process.env.USERS_TABLE
     }
 
     try {

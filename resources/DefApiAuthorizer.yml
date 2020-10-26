@@ -1,0 +1,9 @@
+ApiAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+        IdentitySource: method.request.header.Authorization
+        Name: Cognito
+        RestApiId: ${self:custom.ApiGatewayRestApi.id}
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          - ${self:custom.UserPool.arn}

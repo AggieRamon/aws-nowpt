@@ -1,0 +1,7 @@
+CognitoPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+        Action: lambda:invokeFunction
+        Principal: cognito-idp.amazonaws.com
+        FunctionName: ${self:service}-${opt:stage,'dev'}-createUser
+        SourceArn: ${self:custom.UserPool.arn}

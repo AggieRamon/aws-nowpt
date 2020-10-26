@@ -6,7 +6,7 @@ async function getUsers(event) {
     let users;
 
     const params = {
-        TableName: "users"
+        TableName: process.env.USERS_TABLE
     }
 
     try {

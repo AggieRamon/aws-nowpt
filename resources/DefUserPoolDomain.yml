@@ -1,0 +1,5 @@
+UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+        Domain: nowpt-app
+        UserPoolId: ${self:custom.UserPool.id}

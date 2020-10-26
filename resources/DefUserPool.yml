@@ -1,0 +1,33 @@
+UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+        UserPoolName: nowpt
+        UsernameAttributes:
+            - email
+        Schema:
+            - AttributeDataType: String
+              Name: email
+              Required: true
+            - AttributeDataType: String
+              Name: given_name
+              Required: true
+            - AttributeDataType: String
+              Name: family_name
+              Required: true
+        Policies:
+            PasswordPolicy:
+                MinimumLength: 8
+                RequireLowercase: true
+                RequireNumbers: true
+                RequireUppercase: true
+        AccountRecoverySetting:
+            RecoveryMechanisms:
+                - Name: verified_email
+                  Priority: 1
+        AutoVerifiedAttributes:
+            - email
+        EmailConfiguration:
+            EmailSendingAccount: DEVELOPER
+            SourceArn: arn:aws:ses:#{AWS::Region}:#{AWS::AccountId}:identity/${self:custom.Info.email}
+        VerificationMessageTemplate:
+            DefaultEmailOption: CONFIRM_WITH_LINK
